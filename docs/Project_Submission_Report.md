@@ -68,16 +68,16 @@ We configured a multi-stage Docker build running under a non-root user (`appuser
 ### Phase 2: Infrastructure as Code (Terraform)
 Automated cloud provisioning scripts deploy EKS, Node groups, private/public subnets, NAT Gateway and Route tables securely.
 * **AWS EKS Cluster Active Status**:
-  ![Figure 3.1: AWS Console active EKS Cluster Status](aws_eks_active.png.png)
+  ![Figure 3.1: AWS Console active EKS Cluster Status](aws_eks_active_v2.png)
 * **AWS EKS Cluster Overview Details**:
-  ![Figure 3.2: EKS details with Endpoint and OpenID Connect URLs](aws_eks_detail.png.png)
+  ![Figure 3.2: EKS details with Endpoint and OpenID Connect URLs](aws_eks_detail_v2.png)
 
 ---
 
 ### Phase 3: Automation CI/CD Pipeline (GitHub Actions)
 Our pipeline validates code quality using Ruff linter, runs pytest coverage suite, scans the image with Trivy security tool, and pushes the package to GHCR.
 * **GitHub Actions Green CI Logs**:
-  ![Figure 4.1: Succeeded GitHub Actions CI Pipeline job logs](github_actions_ci.png.png)
+  ![Figure 4.1: Succeeded GitHub Actions CI Pipeline job logs](github_actions_ci_v2.png)
 * **Trivy Container Vulnerability Scan Logs**:
   ![Figure 4.2: Trivy vulnerability report output](github_trivy_logs.png.png)
 
@@ -93,18 +93,18 @@ We configured strict memory/CPU resource constraints, container startup/readines
   ![Figure 5.3: Strict Network Policy block rules](k8s_networkpolicy.png.png)
   ![Figure 5.4: PostgreSQL Ingress Network Policy rules](k8s_networkpolicy2.png.png)
 * **EKS Pods & Services Running**:
-  ![Figure 5.5: Live EKS Namespace Pods and Services Status Check](k8s_pods_running.png)
+  ![Figure 5.5: Live EKS Namespace Pods and Services Status Check](k8s_pods_running_v2.png)
 * **Manual Apply Commands Output**:
-  ![Figure 5.6: Kubernetes Manual manifest apply CLI output](k8s_manual_apply.png)
+  ![Figure 5.6: Kubernetes Manual manifest apply CLI output](k8s_manual_apply_v2.png)
 
 ---
 
 ### Phase 5: Centralized Observability & Logging
 Centralized telemetry dashboards monitor cluster behavior using Prometheus metrics, Grafana charts, and Loki log streams.
 * **Grafana Dashboard**:
-  ![Figure 6.1: Live Grafana EKS Pod Metrics Monitor](grafana_dashboard.png)
+  ![Figure 6.1: Live Grafana EKS Pod Metrics Monitor](grafana_dashboard_v2.png)
 * **Loki Logs Stream**:
-  ![Figure 6.2: Centralized Logging Stream logs in Grafana Explore](loki_logs.png)
+  ![Figure 6.2: Centralized Logging Stream logs in Grafana Explore](loki_logs_v2.png)
 
 ---
 
