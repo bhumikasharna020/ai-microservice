@@ -68,6 +68,10 @@ aws eks update-kubeconfig --region ap-south-1 --name ai-microservice-eks
   ![AWS EKS Active Console](docs/aws_eks_active.png.png)
 * **EKS Cluster Details**:
   ![AWS EKS Detail](docs/aws_eks_detail.png.png)
+* **EKS Pods Running Verification**:
+  ![Kubernetes Pods Running Status](docs/k8s_pods_running.png)
+* **Manual Deploy Command Logs**:
+  ![Kubernetes Manual Apply Output](docs/k8s_manual_apply.png)
 
 ## 3. Build & push the image
 ```bash

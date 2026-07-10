@@ -92,6 +92,10 @@ We configured strict memory/CPU resource constraints, container startup/readines
 * **Network Policies**:
   ![Figure 5.3: Strict Network Policy block rules](k8s_networkpolicy.png.png)
   ![Figure 5.4: PostgreSQL Ingress Network Policy rules](k8s_networkpolicy2.png.png)
+* **EKS Pods & Services Running**:
+  ![Figure 5.5: Live EKS Namespace Pods and Services Status Check](k8s_pods_running.png)
+* **Manual Apply Commands Output**:
+  ![Figure 5.6: Kubernetes Manual manifest apply CLI output](k8s_manual_apply.png)
 
 ---
 
