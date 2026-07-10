@@ -6,6 +6,8 @@ with a full CI/CD, monitoring, logging, and security stack.
 **Full architecture diagram:** [`docs/architecture.md`](docs/architecture.md)
 **Security deep-dive:** [`docs/security-notes.md`](docs/security-notes.md)
 
+![System Architecture](docs/architecture.png)
+
 ## Repo layout
 ```
 app/                FastAPI application + tests
@@ -42,6 +44,12 @@ curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" \
 ```
 Interactive API docs: `http://localhost:8000/docs`
 
+### Local Execution Proofs
+* **Docker Compose Logs**:
+  ![Docker Compose Local Logs](docs/Docker%20Compose%20Startup%20Logs.png)
+* **PostgreSQL Database Storage (Adminer View)**:
+  ![Adminer Database Table Output](docs/adminer.png.png)
+
 ## 2. Provision AWS infra with Terraform (~15-20 min, mostly EKS wait time)
 ```bash
 cd terraform
@@ -54,6 +62,12 @@ aws eks update-kubeconfig --region ap-south-1 --name ai-microservice-eks
 ```
 > Uses local state by default for speed. For real production, uncomment the
 > `backend "s3"` block in `versions.tf` (see [State & DR](#terraform-state--disaster-recovery) below) — create the S3 bucket + DynamoDB table once, then `terraform init` again to migrate state.
+
+### AWS EKS Cluster Provisioning Proofs
+* **Active EKS Cluster Status**:
+  ![AWS EKS Active Console](docs/aws_eks_active.png.png)
+* **EKS Cluster Details**:
+  ![AWS EKS Detail](docs/aws_eks_detail.png.png)
 
 ## 3. Build & push the image
 ```bash
@@ -99,11 +113,22 @@ kubectl port-forward -n monitoring svc/monitoring-grafana 3000:80
 # login: admin / changeme-use-secret-in-prod  (rotate before real use)
 ```
 
+### Centralized Monitoring & Logging Proofs
+* **Grafana Dashboard**:
+  ![Grafana Dashboard](docs/grafana_dashboard.png)
+* **Loki Logs Explorer**:
+  ![Loki logs stream](docs/loki_logs.png)
+
 ## 6. CI/CD
 Push to `main` triggers `.github/workflows/ci-cd.yaml`:
 **lint (flake8/black) → test (pytest + ephemeral Postgres) → docker build →
-Trivy scan (blocks on CRITICAL/HIGH) → push to ECR → `helm upgrade` on EKS**,
-authenticated via GitHub OIDC → AWS IAM role (no static keys).
+Trivy scan (blocks on CRITICAL/HIGH) → push to ECR → `helm upgrade` on EKS**
+
+### CI/CD Automation Proofs
+* **GitHub Actions Green CI Logs**:
+  ![GitHub Actions Green Pipeline](docs/github_actions_ci.png.png)
+* **Trivy Container Vulnerability Scan Logs**:
+  ![Trivy Scan Logs](docs/github_trivy_logs.png.png)
 
 Required GitHub repo secrets: `AWS_ACCOUNT_ID`, `AWS_REGION`, `AWS_OIDC_ROLE_ARN`.
 
