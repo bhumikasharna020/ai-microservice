@@ -6,7 +6,7 @@ with a full CI/CD, monitoring, logging, and security stack.
 **Full architecture diagram:** [`docs/architecture.md`](docs/architecture.md)
 **Security deep-dive:** [`docs/security-notes.md`](docs/security-notes.md)
 
-![System Architecture](docs/architecture.png)
+
 
 ## Repo layout
 ```
