@@ -69,4 +69,3 @@ against EKS via GitHub OIDC (no static AWS keys in CI).
 
 Below is the visual block diagram representing the full VPC, EKS, and CI/CD pipelines:
 
-![Architecture Diagram](architecture.png)
