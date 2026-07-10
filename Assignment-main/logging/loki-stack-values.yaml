@@ -1,0 +1,28 @@
+# Helm values for grafana/loki-stack (Loki + Promtail)
+# Install: helm install loki grafana/loki-stack -n logging --create-namespace -f logging/loki-stack-values.yaml
+
+loki:
+  enabled: true
+  persistence:
+    enabled: true
+    size: 10Gi
+  config:
+    limits_config:
+      retention_period: 168h   # 7 days
+
+promtail:
+  enabled: true
+  config:
+    snippets:
+      pipelineStages:
+        - docker: {}
+        - match:
+            selector: '{namespace="ai-microservice"}'
+            stages:
+              - regex:
+                  expression: '.*"level":"(?P<level>\w+)".*'
+              - labels:
+                  level:
+
+grafana:
+  enabled: false   # reuse the Grafana already installed by kube-prometheus-stack

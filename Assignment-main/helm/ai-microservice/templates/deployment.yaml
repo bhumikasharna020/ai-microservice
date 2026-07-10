@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ai-microservice.fullname" . }}
+  labels: {app: ai-microservice}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels: {app: ai-microservice}
+  template:
+    metadata:
+      labels: {app: ai-microservice}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: ai-microservice
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          env:
+            - name: DATABASE_URL
+              {{- if .Values.postgres.enabled }}
+              value: "postgresql://postgres:postgres@{{ include "ai-microservice.fullname" . }}-postgres-service:5432/appdb"
+              {{- else }}
+              value: "postgresql://postgres:postgres@localhost:5432/appdb"
+              {{- end }}
+            {{- range $k, $v := .Values.env }}
+            - name: {{ $k }}
+              value: "{{ $v }}"
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          livenessProbe:
+            httpGet: {path: /health, port: {{ .Values.service.targetPort }}}
+          readinessProbe:
+            httpGet: {path: /ready, port: {{ .Values.service.targetPort }}}

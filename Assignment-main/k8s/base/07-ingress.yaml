@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ai-microservice-ingress
+  namespace: ai-microservice
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+spec:
+  # NOTE: local-only version — no cert-manager / TLS / real domain.
+  # Production (k8s/07-ingress.yaml) keeps TLS + cert-manager for the real EKS domain.
+  rules:
+    - host: ai-microservice.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ai-microservice-svc
+                port: {number: 80}

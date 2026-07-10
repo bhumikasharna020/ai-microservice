@@ -1,0 +1,27 @@
+# Helm values for kube-prometheus-stack
+# Install: helm install monitoring prometheus-community/kube-prometheus-stack -n monitoring -f monitoring/prometheus-values.yaml
+
+grafana:
+  enabled: true
+  adminPassword: "changeme-use-secret-in-prod"
+  service:
+    type: ClusterIP
+  defaultDashboardsEnabled: true
+
+prometheus:
+  prometheusSpec:
+    retention: 15d
+    resources:
+      requests: {cpu: 200m, memory: 512Mi}
+      limits: {cpu: 500m, memory: 1Gi}
+    serviceMonitorSelectorNilUsesHelmValues: false
+
+alertmanager:
+  enabled: true
+  config:
+    route:
+      receiver: "default"
+      group_by: ["alertname", "namespace"]
+    receivers:
+      - name: "default"
+        # webhook_configs / slack_configs go here in production

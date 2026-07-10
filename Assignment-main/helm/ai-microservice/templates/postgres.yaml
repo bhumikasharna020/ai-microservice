@@ -1,0 +1,63 @@
+{{- if .Values.postgres.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "ai-microservice.fullname" . }}-postgres
+  labels:
+    app: {{ include "ai-microservice.fullname" . }}-postgres
+spec:
+  serviceName: {{ include "ai-microservice.fullname" . }}-postgres-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "ai-microservice.fullname" . }}-postgres
+  template:
+    metadata:
+      labels:
+        app: {{ include "ai-microservice.fullname" . }}-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
+            - name: POSTGRES_DB
+              value: "appdb"
+          resources:
+            requests: {cpu: "100m", memory: "128Mi"}
+            limits: {cpu: "500m", memory: "512Mi"}
+          readinessProbe:
+            exec: {command: ["pg_isready", "-U", "postgres"]}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            exec: {command: ["pg_isready", "-U", "postgres"]}
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata: {name: pgdata}
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests: {storage: {{ .Values.postgres.storage }}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ai-microservice.fullname" . }}-postgres-service
+spec:
+  selector:
+    app: {{ include "ai-microservice.fullname" . }}-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+  clusterIP: None
+{{- end }}

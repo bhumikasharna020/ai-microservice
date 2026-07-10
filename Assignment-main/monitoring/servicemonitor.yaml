@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ai-microservice-monitor
+  namespace: ai-microservice
+  labels:
+    release: monitoring   # must match kube-prometheus-stack's release label
+spec:
+  selector:
+    matchLabels:
+      app: ai-microservice
+  namespaceSelector:
+    matchNames: ["ai-microservice"]
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s

@@ -1,0 +1,31 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: ai-microservice-alerts
+  namespace: ai-microservice
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: ai-microservice.rules
+      rules:
+        - alert: HighErrorRate
+          expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.05
+          for: 5m
+          labels: {severity: critical}
+          annotations:
+            summary: "High 5xx error rate on ai-microservice"
+
+        - alert: PodCrashLooping
+          expr: rate(kube_pod_container_status_restarts_total{namespace="ai-microservice"}[15m]) > 0
+          for: 5m
+          labels: {severity: warning}
+          annotations:
+            summary: "Pod restarting repeatedly in ai-microservice namespace"
+
+        - alert: HighMemoryUsage
+          expr: container_memory_usage_bytes{namespace="ai-microservice"} / container_spec_memory_limit_bytes > 0.9
+          for: 10m
+          labels: {severity: warning}
+          annotations:
+            summary: "Container memory usage above 90% of limit"
