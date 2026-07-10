@@ -32,18 +32,24 @@ spec:
         seccompProfile: {type: RuntimeDefault}
       containers:
         - name: ai-microservice
-          image: ai-microservice:local
-          imagePullPolicy: Never
+          image: bhumikasharma23/ai-microservice:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
               name: http
           env:
-            - name: DATABASE_URL
-              value: "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
             - name: DB_USER
               valueFrom: {secretKeyRef: {name: app-secret, key: DB_USER}}
             - name: DB_PASSWORD
               valueFrom: {secretKeyRef: {name: app-secret, key: DB_PASSWORD}}
+            - name: DB_HOST
+              valueFrom: {configMapKeyRef: {name: app-config, key: DB_HOST}}
+            - name: DB_PORT
+              valueFrom: {configMapKeyRef: {name: app-config, key: DB_PORT}}
+            - name: DB_NAME
+              valueFrom: {configMapKeyRef: {name: app-config, key: DB_NAME}}
+            - name: DATABASE_URL
+              value: "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
           envFrom:
             - configMapRef: {name: app-config}
           resources:
