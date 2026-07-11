@@ -51,6 +51,10 @@ Validate the application and database connectivity locally before deploying to t
   ![Docker Compose Logs](docs/Docker%20Compose%20Startup%20Logs.png)
 * **PostgreSQL Database Storage (Adminer View):**
   ![Adminer View](docs/adminer.png.png)
+* **FastAPI Web Application Frontend Interface:**
+  ![FastAPI Front Interface](docs/fastapi%20front.png)
+* **Interactive OpenAPI Swagger Documentation UI:**
+  ![FastAPI Swagger UI](docs/FastAPI%20Swagger%20UI.png)
 
 ---
 
