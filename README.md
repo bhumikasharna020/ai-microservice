@@ -65,13 +65,13 @@ aws eks update-kubeconfig --region ap-south-1 --name ai-microservice-eks
 
 ### AWS EKS Cluster Provisioning Proofs
 * **Active EKS Cluster Status**:
-  ![AWS EKS Active Console](docs/aws_eks_active_v2.png)
+  ![AWS EKS Active Console](docs/cluster-active.png)
 * **EKS Cluster Details**:
-  ![AWS EKS Detail](docs/aws_eks_detail_v2.png)
+  ![AWS EKS Detail](docs/eks-clusterInfo.png.png)
 * **EKS Pods Running Verification**:
-  ![Kubernetes Pods Running Status](docs/k8s_pods_running_v2.png)
+  ![Kubernetes Pods Running Status](docs/kubernets active.png)
 * **Manual Deploy Command Logs**:
-  ![Kubernetes Manual Apply Output](docs/k8s_manual_apply_v2.png)
+  ![Kubernetes Manual Apply Output](docs/kubernets active.png)
 
 ## 3. Build & push the image
 ```bash
@@ -119,9 +119,9 @@ kubectl port-forward -n monitoring svc/monitoring-grafana 3000:80
 
 ### Centralized Monitoring & Logging Proofs
 * **Grafana Dashboard**:
-  ![Grafana Dashboard](docs/grafana_dashboard_v2.png)
+  ![Grafana Dashboard](docs/k8s dashboard.png.png)
 * **Loki Logs Explorer**:
-  ![Loki logs stream](docs/loki_logs_v2.png)
+  ![Loki logs stream](docs/loki.png.png)
 
 ## 6. CI/CD
 Push to `main` triggers `.github/workflows/ci-cd.yaml`:
@@ -130,7 +130,7 @@ Trivy scan (blocks on CRITICAL/HIGH) → push to ECR → `helm upgrade` on EKS**
 
 ### CI/CD Automation Proofs
 * **GitHub Actions Green CI Logs**:
-  ![GitHub Actions Green Pipeline](docs/github_actions_ci_v2.png)
+  ![GitHub Actions Green Pipeline](docs/ci-cd pipeline.png)
 * **Trivy Container Vulnerability Scan Logs**:
   ![Trivy Scan Logs](docs/github_trivy_logs.png.png)
 
