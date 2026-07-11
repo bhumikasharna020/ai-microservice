@@ -75,3 +75,5 @@ desktop.ini
 *.local
 .tmp/
 tmp/
+# Project Submission Reports (local only)
+Project_Submission_Report.*
